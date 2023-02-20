@@ -3,7 +3,7 @@
 	"debugger.runtimeCommandLineArguments": "",
 	"project.appTitle": "ZoneStripper",
 	"project.autoPrettify": true,
-	"project.buildPath": "${SourcePath}\\Build\\${ProjectName}_${Architecture}.${FileExtension}",
+	"project.buildPath": "${SourcePath}\\Build\\${Architecture}\\${ProjectName}_${Architecture}.${FileExtension}",
 	"project.buildType": "Standard EXE",
 	"project.description": "Removes internet and untrusted zone identifiers",
 	"project.exportPathIsV2": true,
@@ -56,8 +56,8 @@
 	"project.startupObject": "Form1",
 	"project.versionCompanyName": "JAJ Productions",
 	"project.versionMajor": 1,
-	"project.versionMinor": 0,
-	"project.versionRevision": 0,
+	"project.versionMinor": 2,
+	"project.versionRevision": 6,
 	"project.warnings": {
 		"errors": [],
 		"ignored": []

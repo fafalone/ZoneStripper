@@ -55,7 +55,7 @@ Class Form1
         If (nZone = URLZONE_INTRANET) AndAlso (Check3.Value = vbChecked) Then Return True
         If (nZone = URLZONE_TRUSTED) AndAlso (Check4.Value = vbChecked) Then Return True
         If (nZone = URLZONE_INTERNET) AndAlso (Check5.Value = vbChecked) Then Return True
-        If (nZone = URLZONE_UNTRUSTED) AndAlso (Check2.Value = vbChecked) Then Return True
+        If (nZone = URLZONE_UNTRUSTED) AndAlso (Check6.Value = vbChecked) Then Return True
     End Function
     
     
