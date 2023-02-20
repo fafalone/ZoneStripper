@@ -85,7 +85,6 @@ The available zones are identifie by the following enum:
 ```
 Public Enum URLZONE
     URLZONE_INVALID = -1
-    URLZONE_PREDEFINED_MIN = 0
     URLZONE_LOCAL_MACHINE = 0
     URLZONE_INTRANET
     URLZONE_TRUSTED
