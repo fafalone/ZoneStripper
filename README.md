@@ -14,7 +14,7 @@ This is based on an import of the VB6 version originally posted as a years-later
 New features to control what files to apply it to and whether to change the zone instead of remove entirely have been added, and it's been updated to use tbShellLib instead of oleexp and to support compiling for x64 (not much work here, just had to change 3 Longs to LongPtr). 
 
 ### Updates
-**Version 1.2:** Minor bug fixes: Error in tabstop order and inability to set 'Untrusted' zone (if, for whatever reason, anyone ever wanted to).
+**Version 1.2:** Minor bug fixes: Tabstop order incorrect in one spot, and zone deletes/changes couldn't be applied to Untrusted-zone files.
 
 ### Requirements
 
