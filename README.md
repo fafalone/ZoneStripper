@@ -72,10 +72,12 @@ pIPF.Save sFile, 1
 
 Set pIPF = Nothing
 Set pZI = Nothing
-End Sub```
+End Sub
+```
 
 
 The available zones are identifie by the following enum:
+
 
 ```Public Enum URLZONE
     URLZONE_INVALID = -1
