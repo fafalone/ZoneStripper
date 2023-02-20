@@ -1,4 +1,4 @@
-# ZoneStripper
+# ZoneStripper v1.2
 Removes the Zone.Identifier alternate data stream that identifies files as 'from the internet'
 
 ![Screenshot](https://user-images.githubusercontent.com/7834493/220038927-b286b17e-25c3-43c4-a890-c0bd1c581d03.png)
@@ -12,6 +12,9 @@ This is based on an import of the VB6 version originally posted as a years-later
 [[VB6] Code Snippet: Get/set/del file zone identifier (Run file from internet? source)](https://www.vbforums.com/showthread.php?804967-VB6-Code-Snippet-Get-set-del-file-zone-identifier-(Run-file-from-internet-source))
 
 New features to control what files to apply it to and whether to change the zone instead of remove entirely have been added, and it's been updated to use tbShellLib instead of oleexp and to support compiling for x64 (not much work here, just had to change 3 Longs to LongPtr). 
+
+### Updates
+**Version 1.2: ** Minor bug fixes: Error in tabstop order and inability to set 'Untrusted' zone (if, for whatever reason, anyone ever wanted to).
 
 ### Requirements
 
