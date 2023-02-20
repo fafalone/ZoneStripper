@@ -1,0 +1,217 @@
+[ FormDesignerId ("D33D9EBE-6B48-4B34-98E4-1294BF4C84A2") ]
+[ ClassId ("2079231C-1FB8-42F4-817E-323FCA5B6C34") ]
+[ InterfaceId ("E51FC9F8-E42A-40FE-958D-A9B7EB9CAF8C") ]
+[ EventInterfaceId ("D05B96CB-5E11-4B1A-9894-398F9FFBA322") ]
+Class Form1
+    Attribute VB_Name = "Form1"
+    Attribute VB_GlobalNameSpace = False
+    Attribute VB_Creatable = False
+    Attribute VB_PredeclaredId = True
+    Attribute VB_Exposed = False
+    Option Explicit
+
+    Private nCount As Long
+    Private sZonePath As String
+    Private Const SB_BOTTOM = 7
+    Private Const EM_SCROLL As Integer = &HB5
+    Private Declare PtrSafe Function GetFileAttributesW Lib "kernel32.dll" (ByVal lpFileName As LongPtr) As Long
+    Private Declare PtrSafe Function SetFileAttributesW Lib "kernel32.dll" (ByVal lpFileName As LongPtr, ByVal dwFileAttributes As Long) As Long
+    
+    Private Sub Command1_Click()
+    Dim pFOD As FileOpenDialog
+    Dim pFolder As IShellItem
+    
+    Set pFOD = New FileOpenDialog
+    With pFOD
+        .SetTitle "Pick folder..."
+        .SetOptions FOS_PICKFOLDERS Or FOS_FORCEFILESYSTEM Or FOS_PATHMUSTEXIST
+        .Show Me.hWnd
+        On Error Resume Next
+        .GetResult pFolder
+        If (pFolder Is Nothing) = False Then
+            Dim lpPath As LongPtr, sPath As String
+            pFolder.GetDisplayName SIGDN_FILESYSPATH, lpPath
+            Text1.Text = LPWSTRtoStr(lpPath)
+        End If
+    End With
+    End Sub
+    
+    Private Sub Command2_Click()
+    nCount = 0&
+    sZonePath = Text1.Text
+    Dim pFolder As IShellItem
+    SHCreateItemFromParsingName StrPtr(sZonePath), Nothing, IID_IShellItem, pFolder
+    If (pFolder Is Nothing) = False Then
+        UpdateZones pFolder, URLZONE_INVALID
+        PostLog "Done. Removed " & nCount & " Zone Identifiers."
+    Else
+        PostLog "Couldn't load folder."
+    End If
+    End Sub
+    
+    Private Function ZoneApplicable(sPath As String) As Boolean
+    	Dim nZone As URLZONE = GetFileSecurityZone(sPath)
+        If (nZone = URLZONE_LOCAL_MACHINE) AndAlso (Check2.Value = vbChecked) Then Return True
+        If (nZone = URLZONE_INTRANET) AndAlso (Check3.Value = vbChecked) Then Return True
+        If (nZone = URLZONE_TRUSTED) AndAlso (Check4.Value = vbChecked) Then Return True
+        If (nZone = URLZONE_INTERNET) AndAlso (Check5.Value = vbChecked) Then Return True
+        If (nZone = URLZONE_UNTRUSTED) AndAlso (Check2.Value = vbChecked) Then Return True
+    End Function
+    
+    
+    Private Sub UpdateZones(pFolder As IShellItem, NewZone As URLZONE)
+    Dim pEnum As IEnumShellItems
+    Dim dwAttrib As SFGAO_Flags
+    Dim pChild As IShellItem
+    Dim pc As Long
+    Dim hr As Long
+    pFolder.BindToHandler 0&, BHID_EnumItems, IID_IEnumShellItems, pEnum
+    If (pEnum Is Nothing) = False Then
+        Do While pEnum.Next(1&, pChild, pc) = S_OK
+            pChild.GetAttributes SFGAO_FOLDER Or SFGAO_STREAM Or SFGAO_READONLY, dwAttrib
+            If ((dwAttrib And SFGAO_FOLDER) = SFGAO_FOLDER) And ((dwAttrib And SFGAO_STREAM) = 0) Then
+                If Check1.Value = vbChecked Then
+                    UpdateZones pChild, NewZone
+                End If
+            Else
+                Dim lpPath As LongPtr, sPath As String
+                pChild.GetDisplayName SIGDN_FILESYSPATH, lpPath
+                sPath = LPWSTRtoStr(lpPath)
+                If ZoneApplicable(sPath) Then
+                    If (dwAttrib And SFGAO_READONLY) = SFGAO_READONLY Then
+                        If (Option1(1).Value = True) Or (Option1(2).Value = True) Then
+                            ClearReadOnly sPath
+                            If NewZone = URLZONE_INVALID Then
+                                RemoveFileSecurityZone sPath
+                                PostLog "DelZone " & Replace$(sPath, sZonePath, "")
+                            Else
+                            	SetFileSecurityZone sPath, NewZone
+                                PostLog "ChangeZone " & Replace$(sPath, sZonePath, "")
+                            End If
+                        End If
+                        If Option1(2).Value = True Then
+                            AddFileAttributes sPath, FILE_ATTRIBUTE_READONLY
+                        End If
+                    Else
+                        If NewZone = URLZONE_INVALID Then
+                            RemoveFileSecurityZone sPath
+                            PostLog "DelZone " & Replace$(sPath, sZonePath, "")
+                        Else
+                            SetFileSecurityZone sPath, NewZone
+                            PostLog "ChangeZone " & Replace$(sPath, sZonePath, "")
+                        End If
+                    End If
+                End If
+            End If
+        Loop
+    Else
+        Debug.Print "Error: Couldn't enumerate folder."
+    End If
+    End Sub
+    
+    Public Function GetFileSecurityZone(sFile As String) As URLZONE
+    'returns the Zone Identifier of a file, using IZoneIdentifier
+    'This could also be done by ready the Zone.Identifier alternate
+    'data stream directly; readfile C:\file.txt:Zone.Identifier
+    On Error GoTo e1 'We'll error if no zone
+    Dim lz As Long
+    Dim pZI As PersistentZoneIdentifier
+    Set pZI = New PersistentZoneIdentifier
+    
+    Dim pIPF As IPersistFile
+    Set pIPF = pZI
+    
+    pIPF.Load sFile, STGM_READ
+    pZI.GetId lz
+    GetFileSecurityZone = lz
+    
+    Set pIPF = Nothing
+    Set pZI = Nothing
+    e1:
+    End Function
+    
+    Public Sub SetFileSecurityZone(sFile As String, nZone As URLZONE)
+    'As suggested in the enum, you technically can set it to custom values
+    'If you do, they should be between 1000 and 10000.
+    Dim pZI As PersistentZoneIdentifier
+    Set pZI = New PersistentZoneIdentifier
+    
+    pZI.SetId nZone
+    Dim pIPF As IPersistFile
+    Set pIPF = pZI
+    pIPF.Save sFile, 1
+    
+    Set pIPF = Nothing
+    Set pZI = Nothing
+
+    nCount = nCount + 1
+    End Sub
+    
+    Public Sub RemoveFileSecurityZone(sFile As String)
+    Dim pZI As PersistentZoneIdentifier
+    Set pZI = New PersistentZoneIdentifier
+    
+    pZI.Remove
+    Dim pIPF As IPersistFile
+    Set pIPF = pZI
+    pIPF.Save sFile, 1
+    
+    Set pIPF = Nothing
+    Set pZI = Nothing
+    
+    nCount = nCount + 1
+    End Sub
+    
+    Public Sub ClearReadOnly(sFile As String)
+    'Removes the read-only attribute
+    Dim lAtr As FILE_ATTRIBUTES
+    lAtr = GetFileAttributesW(StrPtr(sFile))
+    lAtr = lAtr And Not FILE_ATTRIBUTE_READONLY
+    Call SetFileAttributesW(StrPtr(sFile), lAtr)
+    End Sub
+    
+    Public Sub AddFileAttributes(sFile As String, dwAttrib As FILE_ATTRIBUTES)
+    Dim lAtr As FILE_ATTRIBUTES
+    lAtr = GetFileAttributesW(StrPtr(sFile))
+    lAtr = lAtr Or dwAttrib
+    Call SetFileAttributesW(StrPtr(sFile), lAtr)
+    End Sub
+    
+    Public Function LPWSTRtoStr(lPtr As LongPtr, Optional fFree As Boolean = True) As String
+    SysReAllocStringW VarPtr(LPWSTRtoStr), lPtr
+    If fFree Then
+        Call CoTaskMemFree(lPtr)
+        lPtr = 0&
+    End If
+    End Function
+    
+    Public Sub PostLog(sMsg As String)
+    Text2.Text = Text2.Text & sMsg & vbCrLf
+    SendMessage Text2.hWnd, EM_SCROLL, SB_BOTTOM, ByVal 0&
+    End Sub
+    
+    Private Sub Form_Load()
+    SHAutoComplete Text1.hWnd, SHACF_FILESYS_ONLY
+    Combo1.AddItem "URLZONE_LOCAL_MACHINE"
+    Combo1.AddItem "URLZONE_INTRANET"
+    Combo1.AddItem "URLZONE_TRUSTED"
+    Combo1.AddItem "URLZONE_INTERNET"
+    Combo1.AddItem "URLZONE_UNTRUSTED"
+    Combo1.ListIndex = 0
+    End Sub
+    
+    Private Sub Command3_Click() Handles Command3.Click
+    nCount = 0&
+    sZonePath = Text1.Text
+    Dim pFolder As IShellItem
+    SHCreateItemFromParsingName StrPtr(sZonePath), Nothing, IID_IShellItem, pFolder
+    If (pFolder Is Nothing) = False Then
+        UpdateZones pFolder, Combo1.ListIndex
+        PostLog "Done. Changed " & nCount & " Zone Identifiers."
+    Else
+        PostLog "Couldn't load folder."
+    End If
+    End Sub
+    
+
+End Class

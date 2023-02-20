@@ -1,0 +1,66 @@
+{
+	"configuration.inherits": "Defaults",
+	"debugger.runtimeCommandLineArguments": "",
+	"project.appTitle": "ZoneStripper",
+	"project.autoPrettify": true,
+	"project.buildPath": "${SourcePath}\\Build\\${ProjectName}_${Architecture}.${FileExtension}",
+	"project.buildType": "Standard EXE",
+	"project.description": "Removes internet and untrusted zone identifiers",
+	"project.exportPathIsV2": true,
+	"project.forceDpiAwarenessAtStartup": "NONE",
+	"project.id": "{690B5BA7-4E72-4609-B6DA-772C48E7C169}",
+	"project.licence": "MIT",
+	"project.name": "ZoneStripper",
+	"project.optionExplicit": false,
+	"project.references": [
+		{
+			"id": "{F50B82D0-DCAB-43FE-9631-11959D4A4728}",
+			"isCompilerPackage": true,
+			"lcid": 0,
+			"licence": "MIT",
+			"name": "[COMPILER PACKAGE] WinNativeForms Package",
+			"path32": "",
+			"path64": "",
+			"publisher": "TWINBASIC-COMPILER",
+			"versionBuild": 0,
+			"versionMajor": 0,
+			"versionMinor": 0,
+			"versionRevision": 31
+		},
+		{
+			"id": "{00020430-0000-0000-C000-000000000046}",
+			"lcid": 0,
+			"name": "OLE Automation",
+			"path32": "\\\\?\\C:\\Windows\\SysWow64\\stdole2.tlb",
+			"path64": "\\\\?\\C:\\Windows\\SysWow64\\stdole2.tlb",
+			"versionMajor": 2,
+			"versionMinor": 0
+		},
+		{
+			"id": "{1FCDB98D-617D-4995-9736-2ED0E4746A10}",
+			"licence": "MIT",
+			"name": "[IMPORTED] twinBASIC Shell Library v3.0.13",
+			"path32": "/Packages/tbShellLib",
+			"path64": "/Packages/tbShellLib",
+			"publishedDate": "18-FEB-2023",
+			"publishedTime": "01:31:00",
+			"publisher": "fafalone",
+			"symbolId": "tbShellLib",
+			"versionBuild": "0",
+			"versionMajor": "3",
+			"versionMinor": "0",
+			"versionRevision": "13"
+		}
+	],
+	"project.settingsVersion": 1,
+	"project.startupObject": "Form1",
+	"project.versionCompanyName": "JAJ Productions",
+	"project.versionMajor": 1,
+	"project.versionMinor": 0,
+	"project.versionRevision": 0,
+	"project.warnings": {
+		"errors": [],
+		"ignored": []
+	},
+	"runtime.useUnicodeStandardLibrary": true
+}
