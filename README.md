@@ -13,13 +13,13 @@ This is an import of the VB6 version originally posted as a years-later update t
 
 It's been updated to use tbShellLib instead of oleexp and to support compiling for x64 (not much work here, just had to change 3 Longs to LongPtr). 
 
-###Requirements
+### Requirements
 
 -Source requires [twinBASIC Beta 239 or newer](https://github.com/twinbasic/twinbasic/releases) to open/build.
 
 -As far as I know, this is only applicable to NTFS file systems. This project does use the documented COM interfaces for this rather than manually reading/writing the alternate data stream, so if Windows ever does support this on other file systems, there's still a good chance it works.
 
-###How it works
+### How it works
 
 NTFS supports [alternate data streams](https://www.malwarebytes.com/blog/news/2015/07/introduction-to-alternate-data-streams). These are hidden data blocks attached to a file that don't count towards it's size, so you don't even know if they're there without special utitilities. For instance, all major web browsers add this to all downloads: `C:\download\file.docxm:Zone.Identifier`, a data block containing a value indicating what security zone the file belongs to. This is how Windows knows if a file is from the internet. You can access that stream manually via VB's `Open` syntax, but it's easier, for this purpose at least, to use Window's built in handling:
 
