@@ -79,7 +79,8 @@ End Sub
 The available zones are identifie by the following enum:
 
 
-```Public Enum URLZONE
+```
+Public Enum URLZONE
     URLZONE_INVALID = -1
     URLZONE_PREDEFINED_MIN = 0
     URLZONE_LOCAL_MACHINE = 0
@@ -87,7 +88,8 @@ The available zones are identifie by the following enum:
     URLZONE_TRUSTED
     URLZONE_INTERNET
     URLZONE_UNTRUSTED
-End Enum```
+End Enum
+```
 
 Files are marked as `URLZONE_INTERNET` by web browsers. 
 
