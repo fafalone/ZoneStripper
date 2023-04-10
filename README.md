@@ -1,5 +1,5 @@
 # ZoneStripper v1.2
-Removes the Zone.Identifier alternate data stream that identifies files as 'from the internet'
+Removes the Zone.Identifier alternate data stream that identifies files as 'from the internet', also known as 'the mark of the web'. 
 
 ![Screenshot](https://user-images.githubusercontent.com/7834493/220038927-b286b17e-25c3-43c4-a890-c0bd1c581d03.png)
 
