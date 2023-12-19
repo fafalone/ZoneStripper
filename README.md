@@ -14,6 +14,9 @@ This is based on an import of the VB6 version originally posted as a years-later
 New features to control what files to apply it to and whether to change the zone instead of remove entirely have been added, and it's been updated to use tbShellLib instead of oleexp and to support compiling for x64 (not much work here, just had to change 3 Longs to LongPtr). 
 
 ### Updates
+
+**Update (19 Dec 2023):** .twinproj updated to reference WinDevLib (formerly tbShellLib) 7.0-- this eliminates package errors that tB did not raise at the time this project was initially released.
+
 **Version 1.2:** Minor bug fixes: Tabstop order incorrect in one spot, and zone deletes/changes couldn't be applied to Untrusted-zone files.
 
 ### Requirements
@@ -26,7 +29,7 @@ New features to control what files to apply it to and whether to change the zone
 
 NTFS supports [alternate data streams](https://www.malwarebytes.com/blog/news/2015/07/introduction-to-alternate-data-streams). These are hidden data blocks attached to a file that don't count towards it's size, so you don't even know if they're there without special utitilities. For instance, all major web browsers add this to all downloads: `C:\download\file.docxm:Zone.Identifier`, a data block containing a value indicating what security zone the file belongs to. This is how Windows knows if a file is from the internet. You can access that stream manually via VB's `Open` syntax, but it's easier, for this purpose at least, to use Window's built in handling:
 
-```
+```vb6
 Public Function GetFileSecurityZone(sFile As String) As URLZONE
 'returns the Zone Identifier of a file, using IZoneIdentifier
 'This could also be done by ready the Zone.Identifier alternate
@@ -82,7 +85,7 @@ End Sub
 The available zones are identifie by the following enum:
 
 
-```
+```vb6
 Public Enum URLZONE
     URLZONE_INVALID = -1
     URLZONE_LOCAL_MACHINE = 0
