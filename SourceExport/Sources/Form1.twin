@@ -1,7 +1,7 @@
-[ FormDesignerId ("D33D9EBE-6B48-4B34-98E4-1294BF4C84A2") ]
-[ ClassId ("2079231C-1FB8-42F4-817E-323FCA5B6C34") ]
-[ InterfaceId ("E51FC9F8-E42A-40FE-958D-A9B7EB9CAF8C") ]
-[ EventInterfaceId ("D05B96CB-5E11-4B1A-9894-398F9FFBA322") ]
+[FormDesignerId("D33D9EBE-6B48-4B34-98E4-1294BF4C84A2")]
+[ClassId("2079231C-1FB8-42F4-817E-323FCA5B6C34")]
+[InterfaceId("E51FC9F8-E42A-40FE-958D-A9B7EB9CAF8C")]
+[EventInterfaceId("D05B96CB-5E11-4B1A-9894-398F9FFBA322")]
 Class Form1
     Attribute VB_Name = "Form1"
     Attribute VB_GlobalNameSpace = False
@@ -12,11 +12,7 @@ Class Form1
 
     Private nCount As Long
     Private sZonePath As String
-    Private Const SB_BOTTOM = 7
-    Private Const EM_SCROLL As Integer = &HB5
-    Private Declare PtrSafe Function GetFileAttributesW Lib "kernel32.dll" (ByVal lpFileName As LongPtr) As Long
-    Private Declare PtrSafe Function SetFileAttributesW Lib "kernel32.dll" (ByVal lpFileName As LongPtr, ByVal dwFileAttributes As Long) As Long
-    
+
     Private Sub Command1_Click()
     Dim pFOD As FileOpenDialog
     Dim pFolder As IShellItem
