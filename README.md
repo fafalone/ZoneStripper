@@ -15,6 +15,8 @@ New features to control what files to apply it to and whether to change the zone
 
 ### Updates
 
+**Update (03 Mar 2024):** .twinproj has been updated to use a more recent version of WinDevLib (formerly tbShellLib) due to errors in the package tB did not raise at the time this project was released.
+
 **Update (19 Dec 2023):** .twinproj updated to reference WinDevLib (formerly tbShellLib) 7.0-- this eliminates package errors that tB did not raise at the time this project was initially released.
 
 **Version 1.2:** Minor bug fixes: Tabstop order incorrect in one spot, and zone deletes/changes couldn't be applied to Untrusted-zone files.
