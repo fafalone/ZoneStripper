@@ -13,6 +13,13 @@ This is based on an import of the VB6 version originally posted as a years-later
 
 New features to control what files to apply it to and whether to change the zone instead of remove entirely have been added, and it's been updated to use tbShellLib instead of oleexp and to support compiling for x64 (not much work here, just had to change 3 Longs to LongPtr). 
 
+
+### New: See also - ZoneStripper Shell Extension
+
+This creates a right-click menu option in Explorer to remove the identifiers.
+
+![image](https://github.com/user-attachments/assets/6213134c-998c-4c19-8f73-bfb0e13ee6a3)
+
 ### Updates
 
 **Update (03 Mar 2024):** .twinproj has been updated to use a more recent version of WinDevLib (formerly tbShellLib) due to errors in the package tB did not raise at the time this project was released.
