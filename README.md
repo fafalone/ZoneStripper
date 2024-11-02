@@ -14,7 +14,7 @@ This is based on an import of the VB6 version originally posted as a years-later
 New features to control what files to apply it to and whether to change the zone instead of remove entirely have been added, and it's been updated to use tbShellLib instead of oleexp and to support compiling for x64 (not much work here, just had to change 3 Longs to LongPtr). 
 
 
-### New: See also - ZoneStripper Shell Extension
+### New: See also - [ZoneStripper Shell Extension](https://github.com/fafalone/ZoneStripperExt)
 
 This creates a right-click menu option in Explorer to remove the identifiers.
 
